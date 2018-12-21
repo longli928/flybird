@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Flappy Bird</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <meta name="apple-mobile-web-app-title" content="Flappy Bird" /> 
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <style>
+            body {
+                background: #ADD8E6;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+                overflow: hidden;
+            }
+            #screen {
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="screen"></div>
+        <script src="phaser.min.js"></script>
+        <script src="main.js"></script>
+        <script>
+            initGame({feedbackFunc: function() {
+                    window.open();
+                },
+                parent: document.querySelector('#screen')
+            });
+        </script>
+    </body>
+</html>
