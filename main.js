@@ -130,7 +130,7 @@ function preload() {
   initLoadingText();
   _game.load.onFileComplete.add(showLoadingText);
 
-  _game.load.spritesheet('frog', _baseUrl + 'images/frog.png', 80, 64);
+  _game.load.spritesheet('frog', _baseUrl + 'images/bird.png', 80, 64);
   _game.load.spritesheet('clouds', _baseUrl + 'images/clouds.png', 128, 64);
 
   _game.load.image('pipe', _baseUrl + 'images/pipe.png');
