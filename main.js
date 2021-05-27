@@ -22,22 +22,22 @@ var _baseUrl = '';
 
 var _flapSound;
 
-var _numScoreSounds = 9,
-  _numHurtSounds = 1;
+var _numScoreSounds = 10,
+  _numHurtSounds = 9;
 
 var _scoreSounds = [],
   _hurtSounds = [];
 
 var _currentScoreSound;
 
-var _bgColor = 0x87CEEB,
+var _bgColor = 0xDDEEFF,
   _background;
 
 var _pipes,
   _pipeInvisibleLines,
   _pipesTimer;
 
-var _bird;
+var _frog;
 
 var _ground;
 
@@ -102,7 +102,7 @@ function initLoadingText() {
     TEXT_TINY_TIPS,
     {
       font: '16px ' + TEXT_FONT,
-      fill: '#ADD8E6',
+      fill: '#fff',
       align: 'center'
     }
   );
@@ -114,7 +114,7 @@ function initLoadingText() {
     '',
     {
       font: '24px ' + TEXT_FONT,
-      fill: '#ADD8E6',
+      fill: '#f00',
       align: 'center'
     }
   );
@@ -130,7 +130,7 @@ function preload() {
   initLoadingText();
   _game.load.onFileComplete.add(showLoadingText);
 
-  _game.load.spritesheet('bird', _baseUrl + 'images/bird.png', 80, 64);
+  _game.load.spritesheet('frog', _baseUrl + 'images/frog.png', 80, 64);
   _game.load.spritesheet('clouds', _baseUrl + 'images/clouds.png', 128, 64);
 
   _game.load.image('pipe', _baseUrl + 'images/pipe.png');
@@ -227,18 +227,18 @@ function initBackground() {
   _background.endFill();
 }
 
-function initBird() {
-  _bird = _game.add.sprite(0, 0, 'bird');
-  _bird.anchor.setTo(0.5, 0.5);
-  _bird.body.collideWorldBounds = true;
-  _bird.body.gravity.y = _gravity;
+function initFrog() {
+  _frog = _game.add.sprite(0, 0, 'frog');
+  _frog.anchor.setTo(0.5, 0.5);
+  _frog.body.collideWorldBounds = true;
+  _frog.body.gravity.y = _gravity;
 }
 
-function resetBird() {
-  _bird.body.allowGravity = false;
-  _bird.angle = 0;
-  _bird.scale.setTo(1, 1);
-  _bird.reset(_game.world.width / 4, _game.world.height / 2);
+function resetFrog() {
+  _frog.body.allowGravity = false;
+  _frog.angle = 0;
+  _frog.scale.setTo(1, 1);
+  _frog.reset(_game.world.width / 4, _game.world.height / 2);
 }
 
 function initGround() {
@@ -355,35 +355,35 @@ function updateGround() {
   _ground.tilePosition.x -= _game.time.physicsElapsed * _speed / 2;
 }
 
-function updateBird() {
-  // Make bird dive
-  var dvy = _flap + _bird.body.velocity.y;
-  _bird.angle = (90 * dvy / _flap) - 180;
-  if (_bird.angle < 0) {
-    _bird.angle = 0;
+function updateFrog() {
+  // Make frog dive
+  var dvy = _flap + _frog.body.velocity.y;
+  _frog.angle = (90 * dvy / _flap) - 180;
+  if (_frog.angle < 0) {
+    _frog.angle = 0;
   }
 
   if (_gameOver) {
-    _bird.scale.setTo(1, -1);
-    _bird.angle = -20;
+    _frog.scale.setTo(1, -1);
+    _frog.angle = -20;
   }
 }
 
-function updateBird2() {
-  _bird.y = (_game.world.height / 2) + 8 * Math.cos(_game.time.now / 200);
+function updateFrog2() {
+  _frog.y = (_game.world.height / 2) + 8 * Math.cos(_game.time.now / 200);
 }
 
 function checkCollision() {
-  if (_bird.body.bottom >= _game.world.bounds.bottom) {
+  if (_frog.body.bottom >= _game.world.bounds.bottom) {
     setGameOver();
     return;
   }
-  if (_game.physics.overlap(_bird, _pipes)) {
+  if (_game.physics.overlap(_frog, _pipes)) {
     setGameOver();
     return;
   }
   // Add score
-  _game.physics.overlap(_bird, _pipeInvisibleLines, addScore);
+  _game.physics.overlap(_frog, _pipeInvisibleLines, addScore);
 }
 
 function addScore(_, inv) {
@@ -407,7 +407,7 @@ function setGameOver() {
 function showGameOver() {
   _totalTimeElapsed += _timeElapsed;
   _totalTimeElapsedText.setText(TEXT_TOTAL_TIME_ELAPSED.replace('%s', _totalTimeElapsed));
-  _totalTimeElapsedText.renderable = false;
+  _totalTimeElapsedText.renderable = true;
 
   var a = Math.floor(_score / _timeElapsed * 100);
   a = TEXT_GAME_OVER.replace('%s', _score).replace('%s', _timeElapsed).replace('%s', a);
@@ -438,7 +438,7 @@ function initFeedback() {
     0,
     _feedback,
     {
-      font: '0px ' + TEXT_FONT,
+      font: '14px ' + TEXT_FONT,
       fill: '#fff',
       stroke: '#430',
       strokeThickness: 4,
@@ -461,8 +461,9 @@ function initTexts() {
     TEXT_PLAY_BGM,
     {
       font: '14px ' + TEXT_FONT,
-      fill: '#ADD8E6',
-      strokeThickness: 0,
+      fill: '#fff',
+      stroke: '#430',
+      strokeThickness: 4,
       align: 'center'
     }
   );
@@ -479,7 +480,7 @@ function initTexts() {
       font: '14px ' + TEXT_FONT,
       fill: '#fff',
       stroke: '#430',
-      strokeThickness: 2,
+      strokeThickness: 4,
       align: 'center'
     }
   );
@@ -490,8 +491,8 @@ function initTexts() {
     _scoreText.y + _scoreText.height,
     '',
     {
-      font: '0px ' + TEXT_FONT,//实时显示耗时
-      fill: '#ADD8E6',
+      font: '14px ' + TEXT_FONT,
+      fill: '#f00',
       align: 'center'
     }
   );
@@ -503,7 +504,7 @@ function initTexts() {
     '',
     {
       font: '14px ' + TEXT_FONT,
-      fill: '#ADD8E6',
+      fill: '#f00',
       align: 'center'
     }
   );
@@ -517,7 +518,7 @@ function initTexts() {
       font: '22px ' + TEXT_FONT,
       fill: '#fff',
       stroke: '#430',
-      strokeThickness: 2,
+      strokeThickness: 4,
       align: 'center'
     }
   );
@@ -534,7 +535,7 @@ function initTexts() {
       font: '18px ' + TEXT_FONT,
       fill: '#fff',
       stroke: '#430',
-      strokeThickness: 2,
+      strokeThickness: 4,
       align: 'center'
     }
   );
@@ -544,7 +545,7 @@ function initTexts() {
 function start() {
   _totalTimeElapsedText.renderable = false;
 
-  _bird.body.allowGravity = true;
+  _frog.body.allowGravity = true;
   startPipes();
   _gameStarted = true;
 
@@ -556,7 +557,7 @@ function flap() {
     start();
   }
   if (!_gameOver) {
-    _bird.body.velocity.y = -_flap;
+    _frog.body.velocity.y = -_flap;
     playFlapSound();
   }
 }
@@ -594,7 +595,7 @@ function reset() {
 
   hideGameOver();
 
-  resetBird();
+  resetFrog();
   resetPipes();
 
   showScore();
@@ -606,7 +607,7 @@ function create() {
 
   initBackground();
   initPipes();
-  initBird();
+  initFrog();
   initGround();
   initTexts();
   initClouds();
@@ -627,14 +628,14 @@ function setTimeElapsed() {
 function update() {
   updateClouds();
   if (_gameStarted) {
-    updateBird();
+    updateFrog();
     if (!_gameOver) {
       setTimeElapsed();
       checkCollision();
     }
     updatePipes();
   } else {
-    updateBird2();
+    updateFrog2();
   }
 
   if (!_gameOver) {
@@ -648,7 +649,7 @@ function render() {
 
   _game.debug.renderSpriteBody(_tryAgainSprite);
   _game.debug.renderSpriteBody(_playBgmSprite);
-  _game.debug.renderSpriteBody(_bird);
+  _game.debug.renderSpriteBody(_frog);
 
   _pipes.forEachAlive(function(pipe) {
     _game.debug.renderSpriteBody(pipe);
