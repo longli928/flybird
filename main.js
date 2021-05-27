@@ -35,13 +35,13 @@ var _bgColor = 0xDDEEFF,
 
 var _pipes,
   _pipeInvisibleLines,
-  _pipesTimer
+  _pipesTimer;
 
 var _frog;
 
 var _ground;
 
-var _clouds
+var _clouds,
   _cloudsTimer;
 
 var _gameOver = false,
@@ -53,7 +53,7 @@ var _scoreText,
   _gameOverText,
   _tryAgainText,
   _tryAgainSprite,
-  _playBgmText
+  _playBgmText,
   _playBgmSprite;
 
 var _bgm,
@@ -63,7 +63,7 @@ var _bgmKeyCode = [
   Phaser.Keyboard.ZERO,
   Phaser.Keyboard.NUMPAD_0
 ];
-main.js
+
 var _flapKeyCode = [
   Phaser.Keyboard.E,
   Phaser.Keyboard.SPACEBAR
@@ -130,7 +130,7 @@ function preload() {
   initLoadingText();
   _game.load.onFileComplete.add(showLoadingText);
 
-  _game.load.spritesheet('frog', _baseUrl + 'images/bird.png', 80, 64);
+  _game.load.spritesheet('frog', _baseUrl + 'images/frog.png', 80, 64);
   _game.load.spritesheet('clouds', _baseUrl + 'images/clouds.png', 128, 64);
 
   _game.load.image('pipe', _baseUrl + 'images/pipe.png');
